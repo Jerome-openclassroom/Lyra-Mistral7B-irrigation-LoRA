@@ -133,7 +133,7 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_spec
 ```
 
 ---
-## Arborescence
+## 💾 Arborescence
 
 ```
 lyra_transformer/
