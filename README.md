@@ -3,8 +3,8 @@
 
 # 🌱 Lyra-Mistral7B-irrigation-LoRA
 
-![EUstack](https://img.shields.io/badge/🇪🇺%20EUstack-ready-blue)
 ![SouverainAI](https://img.shields.io/badge/🇫🇷%20SouverainAI-oui-success)
+![EUstack](https://img.shields.io/badge/🇪🇺%20EUstack-ready-blue)
 
 ## 📌 Description
 Ce dépôt décrit la méthodologie employée pour réaliser un **fine-tuning LoRA** sur le modèle **Mistral-7B-Instruct-v0.3**, spécialisé pour l'irrigation agricole (réponses courtes en français donnant des apports d'eau en mm selon le sol, la tension hydrique et le stade phénologique).
