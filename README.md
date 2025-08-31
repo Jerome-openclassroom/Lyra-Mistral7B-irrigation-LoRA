@@ -140,7 +140,7 @@ lyra_transformer/
 ├── README.md                          # version en Français
 ├── README_fr.md                       # version en anlgais
 ├── code/                              
-│   ├── train_lora.py                  # Script de fine-tuning LoRA
+│   ├── Mistral_7B_LoRA.py             # Script de fine-tuning LoRA
 │
 ├── datasets/                          # mes datasets au format jsonl structurés pour l'entrainement des modèles Mistral IA
 │   ├── lyra_irrigation_train_mistral.jsonl
