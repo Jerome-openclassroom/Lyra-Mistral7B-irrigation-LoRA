@@ -1,3 +1,9 @@
+<img src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" width="100px" height="auto" />
+
+![EUstack](https://img.shields.io/badge/🇪🇺%20EUstack-ready-blue)
+![SouverainAI](https://img.shields.io/badge/🇫🇷%20SouverainAI-oui-success)
+
+
 # 🌱 Lyra-Mistral7B-irrigation-LoRA
 
 ## 📌 Description
