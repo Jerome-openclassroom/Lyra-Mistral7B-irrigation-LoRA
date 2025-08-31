@@ -2,6 +2,9 @@
 
 # 🌱 Lyra-Mistral7B-irrigation-LoRA
 
+![SouverainAI](https://img.shields.io/badge/🇫🇷%20SouverainAI-oui-success)
+![EUstack](https://img.shields.io/badge/🇪🇺%20EUstack-ready-blue)
+
 ## 📌 Description
 This repository documents the methodology used to perform a **LoRA fine-tuning** on the **Mistral-7B-Instruct-v0.3** model, specialized for agricultural irrigation (short answers in French giving water input recommendations in mm according to soil, water tension, and phenological stage).
 
