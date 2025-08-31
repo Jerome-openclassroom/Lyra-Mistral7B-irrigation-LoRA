@@ -130,6 +130,7 @@ prompt = "Context: agriculture. Soil: sandy, tension 70 cbar, stage: Growth. Wha
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_special_tokens=True))
 ```
+---
 
 ## 💾 Arborescence
 
