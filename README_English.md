@@ -131,6 +131,21 @@ inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_special_tokens=True))
 ```
 
+## 💾 Arborescence
+
+```
+lyra_transformer/
+├── README.md                          # French version
+├── README_fr.md                       # English version
+│
+├── datasets/                          # my datasets in JSONL format, structured for training Mistral AI models
+│   ├── lyra_irrigation_train_mistral.jsonl
+│   └── lyra_irrigation_valid_mistral.jsonl
+│
+└── learning_curve/                    # training curve
+    └── loss_LoRA_Mistral_7B.xlsx
+
+```
 ---
 
 ## 📜 License
