@@ -22,7 +22,7 @@ Le modèle est disponible publiquement sur Hugging Face :
 - **Langue** : multilingue, excellent en français
 
 ### Fine-tuning
-- **Technique** : QLoRA (quantization 4 bits, bitsandbytes) dans Google Colab Pro avec processeur A100
+- **Technique** : QLoRA (quantization 4 bits, bitsandbytes) dans Google Colab Pro 
 - **Modules LoRA** : `q_proj`, `k_proj`, `v_proj`, `o_proj`, `down_proj`
 - **Hyperparamètres** :
   - `r=16`
