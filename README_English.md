@@ -138,6 +138,8 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_spec
 lyra_transformer/
 ├── README.md                          # French version
 ├── README_fr.md                       # English version
+├── code/                              
+│   ├── Mistral_7B_LoRA.py             # fine-tuning LoRA (python code)
 │
 ├── datasets/                          # my datasets in JSONL format, structured for training Mistral AI models
 │   ├── lyra_irrigation_train_mistral.jsonl
