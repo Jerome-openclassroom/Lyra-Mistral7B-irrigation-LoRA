@@ -1,3 +1,5 @@
+<img src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" width="100px" height="auto" />
+
 # 🌱 Lyra-Mistral7B-irrigation-LoRA
 
 ## 📌 Description
