@@ -152,5 +152,9 @@ lyra_transformer/
 ```
 ---
 
+Ce projet est une **variante radicalement différente** de [Lyra_irrigation_mobile](https://github.com/Jerome-openclassroom/Lyra_irrigation_mobile) : ici, l’approche repose sur **Mistral 7B et LoRA** (fine-tuning léger sur les poids quantifiés, avec scripts Python), tandis que l’autre projet s’appuie sur **GPT (API OpenAI)** avec **SFT direct sur les poids et une interface applicative**.  
+👉 Les deux approches, bien que techniquement opposées, aboutissent à un **résultat fonctionnellement équivalent** et mettent en valeur des compétences complémentaires.
+
+---
 ## 📜 Licence
 MIT
