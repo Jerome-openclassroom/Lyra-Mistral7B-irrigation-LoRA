@@ -104,7 +104,7 @@ trainer = Trainer(
     data_collator=collator
 )
 
-trainer.train()
+trainer.train() #cette commande lance l'entrainement 
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
