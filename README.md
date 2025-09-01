@@ -148,7 +148,7 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_spec
 ```
 lyra_transformer/
 ├── README.md                          # version en Français
-├── README_fr.md                       # version en anlgais
+├── README_fr.md                       # version en anglais
 ├── code/                              
 │   ├── Mistral_7B_LoRA.py             # Script de fine-tuning LoRA
 │
