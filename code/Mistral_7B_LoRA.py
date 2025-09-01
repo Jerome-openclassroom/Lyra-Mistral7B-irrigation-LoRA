@@ -11,10 +11,10 @@ Original file is located at
 !pip install --upgrade bitsandbytes transformers accelerate peft datasets
 !pip Mistral
 
-from google.colab import drive
+from google.colab import drive #on monte le disque Google Drive dans l'environnement Colab
 drive.mount('/content/drive')
 
-BASE = "/content/drive/MyDrive/Colab_Notebooks/LoRA"
+BASE = "/content/drive/MyDrive/Colab_Notebooks/LoRA" #définit les chemins vers les datasets sous forme de chaine de caractères (ils sont stockés dans Google Drive)
 DATA_DIR = f"{BASE}/datasets"
 OUT_DIR  = f"{BASE}/outputs_lora_4bit"
 
@@ -22,16 +22,16 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "mistralai/Mistral-7B-Instruct-v0.3"
 
-tokenizer = AutoTokenizer.from_pretrained(model_id)
+tokenizer = AutoTokenizer.from_pretrained(model_id) #on sélectionne le Tokenizer de Mistral 7B
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
-import torch
+import torch # Chargement de Mistral 7B depuis Hugging Face, en version quantizée 4 bits (via bitsandbytes), ce qui réduit la charge mémoire nécessaire en gardant la majorité des performances du modèle
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
-    device_map="auto",
+    device_map="auto", #répartit les poids sur les GPU disponibles
     load_in_4bit=True,
-    torch_dtype=torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+    torch_dtype=torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16 
 )
 model.config.pad_token_id = tokenizer.pad_token_id
 
@@ -39,10 +39,10 @@ from datasets import load_dataset
 
 DATA_DIR = "/content/drive/MyDrive/Colab_Notebooks/LoRA/datasets"
 
-train_file = f"{DATA_DIR}/lyra_irrigation_train_mistral.jsonl"
+train_file = f"{DATA_DIR}/lyra_irrigation_train_mistral.jsonl" #train_file est une variable string qui reçoit tout le chemin vers le dataset
 valid_file = f"{DATA_DIR}/lyra_irrigation_valid_mistral.jsonl"
 
-train_ds = load_dataset("json", data_files=train_file, split="train")
+train_ds = load_dataset("json", data_files=train_file, split="train") #chargement des fichiers .jsonl contenant des paires instruction/réponse
 valid_ds = load_dataset("json", data_files=valid_file, split="train")
 
 print(train_ds[0])
@@ -54,7 +54,7 @@ def tok_fn(ex):
         ex["text"],
         truncation=True,
         max_length=max_len,
-        padding=False
+        padding=False #on utilise DataCollatorForLanguageModeling (voir plus bas à la ligne 81), il ajoute le padding dynamiquement et s’assure que tous les exemples d’un batch ont la même longueur, en ajoutant des pad_token_id
     )
     tok["labels"] = tok["input_ids"].copy()
     return tok
@@ -63,14 +63,14 @@ tok_train = train_ds.map(tok_fn, batched=True, remove_columns=["text"])
 tok_valid = valid_ds.map(tok_fn, batched=True, remove_columns=["text"])
 
 from peft import LoraConfig, get_peft_model
-
+# ci dessous, la configuration du LoRA
 lora_cfg = LoraConfig(
-    r=16,
-    lora_alpha=32,
-    lora_dropout=0.05,
-    bias="none",
-    task_type="CAUSAL_LM",
-    target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "down_proj"]
+    r=16, #rang des matrices LoRA
+    lora_alpha=32, #lora_alpha/r = 32/16 = 2, le facteur d'influence des matrices sur l'entrainement est de 2
+    lora_dropout=0.05, #dropout de 5% à chaque passage d'un batch 
+    bias="none", #on n'entraine que sur les poids (mais sans les modifier !), pas les biais, ici 0.3% des paramètres seulement sont entrainés (sur 7 milliards)
+    task_type="CAUSAL_LM", # Causal signifie que Mistral 7B est un décodeur autoregressif : il prédit le prochain Token (complétion)
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "down_proj"] #on cible les têtes d'attention q,k et v et les couches o et down
 )
 
 model = get_peft_model(model, lora_cfg)
@@ -81,19 +81,19 @@ from transformers import TrainingArguments, Trainer, DataCollatorForLanguageMode
 collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 args = TrainingArguments(
-    output_dir="/content/drive/MyDrive/Colab_Notebooks/LoRA/outputs_phi2",
-    per_device_train_batch_size=1,
-    gradient_accumulation_steps=4,
-    num_train_epochs=3,
-    learning_rate=2e-5,
-    lr_scheduler_type="cosine",
-    warmup_ratio=0.03,
-    logging_steps=10,
-    save_strategy="epoch",
-    save_total_limit=1,
-    bf16=torch.cuda.is_bf16_supported(),
-    fp16=not torch.cuda.is_bf16_supported(),
-    disable_tqdm=False
+    output_dir="/content/drive/MyDrive/Colab_Notebooks/LoRA/outputs_phi2", #dossier où on sauvegarde les checkpoints du modèle
+    per_device_train_batch_size=1, #une seule ligne par batch (léger mais ok pour un très petit dataset !)
+    gradient_accumulation_steps=4, #met à jour les poids seulement tous les 4 passages, ce qui équivaut à un batch de 4
+    num_train_epochs=3, #3 epochs pour l'entrainement (en moyenne entre 3 et 5)
+    learning_rate=2e-5, #normal aussi pour un learning rate
+    lr_scheduler_type="cosine", #pente douce au départ, plus forte ensuite, et douce à la fin
+    warmup_ratio=0.03, #les premiers 3% des données d'entrainement utilisent une montée progressive vers le learning rate
+    logging_steps=10, #on enregistre la Loss tous les 10 steps (chaque 10 cycles d'entrainement)
+    save_strategy="epoch", #on enregistre un modèle à la fin de chaque epoch
+    save_total_limit=1, #on ne garde qu'un seul modèle en mémoire
+    bf16=torch.cuda.is_bf16_supported(), #binary floart si CUDA fonctionne...
+    fp16=not torch.cuda.is_bf16_supported(), #...floating point 16 ordinaire si CUDA n'est pas utilisé par le GPU
+    disable_tqdm=False #on visualise la barre de progression pendant l'entrainement (indispensable pour savoir si ça a planté, où ça en est...!)
 )
 
 trainer = Trainer(
