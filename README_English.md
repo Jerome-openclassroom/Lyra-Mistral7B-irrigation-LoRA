@@ -124,7 +124,9 @@ from peft import PeftModel
 import torch
 
 login(token="MY_HF_TOKEN")
-base_model = "mistralai/Mistral-7B-Instruct-v0.3"
+base_model = "mistralai/Mistral-7B-Instruct-v0.3" # Enter your Hugging Face token here (equivalent to a free API key, obtained from your Hugging Face account)
+# You must also request access in advance (just click the dedicated button) on the model page: https://huggingface.co/jeromex1/Lyra-Mistral7B-irrigation-LoRA
+
 lora_model = "jeromex1/Lyra-Mistral7B-irrigation-LoRA"
 
 tokenizer = AutoTokenizer.from_pretrained(base_model)
