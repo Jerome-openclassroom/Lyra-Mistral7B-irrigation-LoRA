@@ -113,12 +113,17 @@ Phenological stage: Growth. Soil: sandy clay loam. Soil water tension: 55 cbar.
 
 ## 📦 Usage
 
+💡 **Recommendation**: To avoid errors related to missing dependencies, lack of GPU support, or extremely slow performance on a local PC, we strongly recommend using [Google Colab](https://colab.research.google.com/) (free or ideally Colab Pro) to run this model in an optimized environment.
+
+
 Example of loading the model with PEFT:
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from huggingface_hub import login
 from peft import PeftModel
 import torch
 
+login(token="MY_HF_TOKEN")
 base_model = "mistralai/Mistral-7B-Instruct-v0.3"
 lora_model = "jeromex1/Lyra-Mistral7B-irrigation-LoRA"
 
@@ -126,7 +131,7 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 model = AutoModelForCausalLM.from_pretrained(base_model, load_in_4bit=True, device_map="auto")
 model = PeftModel.from_pretrained(model, lora_model)
 
-prompt = "Context: agriculture. Soil: sandy, tension 70 cbar, stage: Growth. What irrigation is required?"
+prompt = "contexte : agriculture. sol sableux, tension 70 cbar, stade Croissance, quel apport d'eau ?"
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50)[0], skip_special_tokens=True))
 ```
