@@ -115,6 +115,11 @@ stade phénologique Croissance, sol argilo-sableux, tension hydrique 55 cbar
 ## 📦 Utilisation
 
 Exemple de chargement du modèle avec PEFT :
+
+```python
+!pip install -q peft transformers accelerate bitsandbytes sentencepiece huggingface_hub hf_xet
+```
+
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
