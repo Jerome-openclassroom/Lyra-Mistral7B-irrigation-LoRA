@@ -122,9 +122,12 @@ Exemple de chargement du modèle avec PEFT :
 
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from huggingface_hub import login
 from peft import PeftModel
 import torch
 
+login(token="MY_HF_TOKEN") #entrer ici votre Token (équivalent d'une clé API gratuite, récupéré sur Hugging Face) 
+# préalablement il faut aussi demander une autorisation (par simple clic sur le bouton dédié) sur la page https://huggingface.co/jeromex1/Lyra-Mistral7B-irrigation-LoRA
 base_model = "mistralai/Mistral-7B-Instruct-v0.3"
 lora_model = "jeromex1/Lyra-Mistral7B-irrigation-LoRA"
 
