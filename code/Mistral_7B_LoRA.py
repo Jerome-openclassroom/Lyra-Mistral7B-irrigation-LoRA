@@ -137,7 +137,7 @@ lora_model = AutoModelForCausalLM.from_pretrained(
 lora_model = PeftModel.from_pretrained(lora_model, lora_dir)
 lora_model.config.pad_token_id = tokenizer.pad_token_id
 
-# 🔹 Prompts initiaux
+# 🔹 Prompts initiaux pour tester les réponse entre le modèle non entrainé et le modèle entrainé
 prompts = [
     "contexte : agriculture. stade phénologique Floraison, sol argileux, tension de l'eau du sol 48 cbar, question portant sur l'irrigation : quel apport d'eau est nécessaire ? donner une réponse courte",
     "contexte : agriculture. stade phénologique Croissance, sol limoneux, tension hydrique du sol 32 cbar, 5 mm pluie récente, question portant sur l'irrigation : quel apport d'eau est nécessaire ? donner une réponse courte",
@@ -155,9 +155,9 @@ def generate_answer(model, tokenizer, prompt):
 # 🔹 Test
 for i, p in enumerate(prompts, 1):
     print(f"\n--- Prompt {i} ---\n{p}\n")
-    print("Base Phi-2:")
+    print("Base Mistral 7B:")
     print(generate_answer(base_model, tokenizer, p))
-    print("\nPhi-2 + LoRA:")
+    print("\nMistral 7B + LoRA:")
     print(generate_answer(lora_model, tokenizer, p))
     print("="*80)
 
