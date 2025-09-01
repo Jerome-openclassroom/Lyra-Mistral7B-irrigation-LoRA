@@ -117,6 +117,11 @@ Phenological stage: Growth. Soil: sandy clay loam. Soil water tension: 55 cbar.
 
 
 Example of loading the model with PEFT:
+
+```python
+!pip install -q peft transformers accelerate bitsandbytes sentencepiece huggingface_hub hf_xet
+```
+
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from huggingface_hub import login
