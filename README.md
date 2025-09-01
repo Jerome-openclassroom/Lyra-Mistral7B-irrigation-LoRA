@@ -114,6 +114,8 @@ stade phénologique Croissance, sol argilo-sableux, tension hydrique 55 cbar
 
 ## 📦 Utilisation
 
+💡 **Recommandation** : Pour éviter les erreurs liées aux dépendances, à l’absence de GPU ou aux lenteurs extrêmes sur PC, nous conseillons vivement d’utiliser [Google Colab](https://colab.research.google.com/) (gratuit ou idéalement Colab Pro) pour exécuter ce modèle dans un environnement optimisé.
+
 Exemple de chargement du modèle avec PEFT :
 
 ```python
